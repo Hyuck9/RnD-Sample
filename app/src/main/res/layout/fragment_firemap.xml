@@ -5,9 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.fire.FireMapFragment">
 
-    <TextView
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/photoView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
-
+        android:layout_height="match_parent"/>
 </FrameLayout>

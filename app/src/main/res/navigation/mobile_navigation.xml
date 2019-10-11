@@ -3,24 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_home">
 
-    <fragment
-        android:id="@+id/nav_location"
-        android:name="com.nexmore.rnd.ui.map.MapFragment"
-        android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/nav_home"
         android:name="com.nexmore.rnd.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_location"
+            app:destination="@id/nav_location" />
+        <action
+            android:id="@+id/action_nav_home_to_fireMapFragment"
+            app:destination="@id/nav_firemap" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_location"
+        android:name="com.nexmore.rnd.ui.map.MapFragment"
+        android:label="사고 위치"
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.nexmore.rnd.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/menu_firemap"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
@@ -46,5 +54,10 @@
         android:name="com.nexmore.rnd.ui.send.SendFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_send" />
+    <fragment
+        android:id="@+id/nav_firemap"
+        android:name="com.nexmore.rnd.ui.fire.FireMapFragment"
+        android:label="fragment_firemap"
+        tools:layout="@layout/fragment_firemap" />
 
 </navigation>
