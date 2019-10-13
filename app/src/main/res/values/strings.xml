@@ -27,5 +27,7 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+    <string name="transition_name_create_chat" translatable="false">create_chat</string>
+
     <string name="kakao_app_key">35f0d33b29d647701431bb0d7869707b</string>
 </resources>

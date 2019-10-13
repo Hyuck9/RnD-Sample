@@ -61,16 +61,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        키해시 얻기
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo("com.nexmore.rnd", PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.d("Key Hash", "Key Hash : " + Base64.encodeToString(md.digest(), Base64.NO_WRAP));
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo("com.nexmore.rnd", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("Key Hash", "Key Hash : " + Base64.encodeToString(md.digest(), Base64.NO_WRAP));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

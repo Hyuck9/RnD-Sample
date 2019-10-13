@@ -20,7 +20,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".SampleMapActivity"></activity>
+        <activity android:name=".ui.chat.CreateChatActivity"></activity>
+        <activity android:name=".SampleMapActivity" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"

@@ -1,14 +1,10 @@
 package com.nexmore.rnd.ui.map;
 
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,16 +15,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.nexmore.rnd.MainActivity;
 import com.nexmore.rnd.R;
+import com.nexmore.rnd.transitions.FabTransform;
+import com.nexmore.rnd.ui.chat.CreateChatActivity;
 
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
 import java.util.Objects;
@@ -43,6 +40,14 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     private double mLatitude = 37.56640625;
     private double mLongitude = 126.97787475585938;
 
+    private FloatingActionButton mFabMain;
+    private FloatingActionButton mFabChat;
+    private FloatingActionButton mFabSNS;
+    private boolean isFabOpen = false;
+    private Animation fabOpen, fabClose, fabRClockwise, fabRAntiClockWise;
+
+    public static final int CREATE_CHAT_REQUEST_CODE = 107;
+
 //    public static MapFragment newInstance() {
 //        return new MapFragment();
 //    }
@@ -52,14 +57,12 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_map, container, false);
         mMapView = root.findViewById(R.id.map_view);
-        FloatingActionButton fab = root.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mFabMain = root.findViewById(R.id.fab_main);
+        mFabChat = root.findViewById(R.id.fab_create_chat);
+        mFabSNS = root.findViewById(R.id.fab_sns);
+
+        initalizeAnimation();
+        setupFab();
 
         CheckBox checkbox = root.findViewById(R.id.checkbox_my_location);
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -80,6 +83,63 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         mMapView.setCurrentLocationEventListener(this);
         return root;
     }
+
+
+    private void setupFab() {
+        mFabMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( isFabOpen ) {
+                    fabCloseAction();
+                } else {
+                    fabOpenAction();
+                }
+            }
+        });
+
+        mFabChat.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), CreateChatActivity.class);
+                int color = ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorFabGreen);
+                FabTransform.addExtras(intent, color, R.drawable.ic_forum_white);
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(Objects.requireNonNull(getActivity()),
+                                mFabChat,
+                                getString(R.string.transition_name_create_chat));
+                startActivityForResult(intent, CREATE_CHAT_REQUEST_CODE, optionsCompat.toBundle());
+            }
+        });
+    }
+
+    private void fabOpenAction() {
+        mFabMain.startAnimation(fabRClockwise);
+        mFabChat.startAnimation(fabOpen);
+        mFabSNS.startAnimation(fabOpen);
+        mFabChat.setClickable(true);
+        mFabSNS.setClickable(true);
+        isFabOpen = true;
+    }
+
+    private void fabCloseAction() {
+        mFabMain.startAnimation(fabRAntiClockWise);
+        mFabChat.startAnimation(fabClose);
+        mFabSNS.startAnimation(fabClose);
+        mFabChat.setClickable(false);
+        mFabSNS.setClickable(false);
+        isFabOpen = false;
+    }
+
+    private void initalizeAnimation() {
+        fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+        fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        fabRClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_clockwise);
+        fabRAntiClockWise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_anticlockwise);
+    }
+
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
