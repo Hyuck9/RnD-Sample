@@ -5,4 +5,6 @@
     <color name="colorAccent">#283593</color>
     <color name="colorDracula">#323232</color>
     <color name="fab_location_color">#2196F3</color>
+    <color name="colorBackgroundRippleAccident">#7E4E04</color>
+    <color name="colorBackgroundRippleFire">#FFFF00</color>
 </resources>
