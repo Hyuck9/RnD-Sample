@@ -2,6 +2,7 @@ package com.nexmore.rnd.ui.map;
 
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -17,11 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nexmore.rnd.R;
+import com.nexmore.rnd.databinding.FragmentMapBinding;
 import com.nexmore.rnd.transitions.FabTransform;
 import com.nexmore.rnd.ui.chat.CreateChatActivity;
 
@@ -34,104 +33,86 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
     private MapViewModel mViewModel;
 
-    private MapView mMapView;
-
-//    private LocationManager mLocationManager;
+    //    private LocationManager mLocationManager;
     private double mLatitude = 37.56640625;
     private double mLongitude = 126.97787475585938;
 
-    private FloatingActionButton mFabMain;
-    private FloatingActionButton mFabChat;
-    private FloatingActionButton mFabSNS;
+    private FragmentMapBinding binding;
+
     private boolean isFabOpen = false;
     private Animation fabOpen, fabClose, fabRClockwise, fabRAntiClockWise;
 
-    public static final int CREATE_CHAT_REQUEST_CODE = 107;
-
-//    public static MapFragment newInstance() {
-//        return new MapFragment();
-//    }
+    private static final int CREATE_CHAT_REQUEST_CODE = 107;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_map, container, false);
-        mMapView = root.findViewById(R.id.map_view);
-        mFabMain = root.findViewById(R.id.fab_main);
-        mFabChat = root.findViewById(R.id.fab_create_chat);
-        mFabSNS = root.findViewById(R.id.fab_sns);
 
-        initalizeAnimation();
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
+
+        initAnimation();
         setupFab();
+        binding.mapView.setCurrentLocationEventListener(this);
 
-        CheckBox checkbox = root.findViewById(R.id.checkbox_my_location);
-        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if ( isChecked ) {
-                    mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
-                } else {
-                    mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
-                    mMapView.setShowCurrentLocationMarker(false);
-                }
+        setupCheckBox();
+
+
+        return binding.getRoot();
+    }
+
+    private void setupCheckBox() {
+        binding.checkboxMyLocation.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if ( isChecked ) {
+                binding.mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
+            } else {
+                binding.mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
+//                binding.mapView.setShowCurrentLocationMarker(false);
             }
         });
-
-        checkbox.setChecked(true);
-
-
-        mMapView.setCurrentLocationEventListener(this);
-        return root;
+        binding.checkboxMyLocation.setChecked(true);
     }
 
 
     private void setupFab() {
-        mFabMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if ( isFabOpen ) {
-                    fabCloseAction();
-                } else {
-                    fabOpenAction();
-                }
+        binding.fabMain.setOnClickListener(view -> {
+            if ( isFabOpen ) {
+                fabCloseAction();
+            } else {
+                fabOpenAction();
             }
         });
 
-        mFabChat.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), CreateChatActivity.class);
-                int color = ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorFabGreen);
-                FabTransform.addExtras(intent, color, R.drawable.ic_forum_white);
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(Objects.requireNonNull(getActivity()),
-                                mFabChat,
-                                getString(R.string.transition_name_create_chat));
-                startActivityForResult(intent, CREATE_CHAT_REQUEST_CODE, optionsCompat.toBundle());
-            }
+        binding.fabCreateChat.setOnClickListener(view -> {
+            Intent intent = new Intent(getContext(), CreateChatActivity.class);
+            int color = ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorFabGreen);
+            FabTransform.addExtras(intent, color, R.drawable.ic_forum_white);
+            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(Objects.requireNonNull(getActivity()),
+                            binding.fabCreateChat,
+                            getString(R.string.transition_name_create_chat));
+            startActivityForResult(intent, CREATE_CHAT_REQUEST_CODE, optionsCompat.toBundle());
         });
     }
 
     private void fabOpenAction() {
-        mFabMain.startAnimation(fabRClockwise);
-        mFabChat.startAnimation(fabOpen);
-        mFabSNS.startAnimation(fabOpen);
-        mFabChat.setClickable(true);
-        mFabSNS.setClickable(true);
+        binding.fabMain.startAnimation(fabRClockwise);
+        binding.fabCreateChat.startAnimation(fabOpen);
+        binding.fabSns.startAnimation(fabOpen);
+        binding.fabCreateChat.setClickable(true);
+        binding.fabSns.setClickable(true);
         isFabOpen = true;
     }
 
     private void fabCloseAction() {
-        mFabMain.startAnimation(fabRAntiClockWise);
-        mFabChat.startAnimation(fabClose);
-        mFabSNS.startAnimation(fabClose);
-        mFabChat.setClickable(false);
-        mFabSNS.setClickable(false);
+        binding.fabMain.startAnimation(fabRAntiClockWise);
+        binding.fabCreateChat.startAnimation(fabClose);
+        binding.fabSns.startAnimation(fabClose);
+        binding.fabCreateChat.setClickable(false);
+        binding.fabSns.setClickable(false);
         isFabOpen = false;
     }
 
-    private void initalizeAnimation() {
+    private void initAnimation() {
         fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
         fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
         fabRClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_clockwise);
@@ -153,13 +134,15 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Override
     public void onCurrentLocationUpdate(MapView mapView, MapPoint mapPoint, float accuracyInMeters) {
         if ( mapView.getCurrentLocationTrackingMode() == MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading ) {
-            mMapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
+            binding.mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
         }
         MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
         mLatitude = mapPointGeo.latitude;
         mLongitude = mapPointGeo.longitude;
         Log.i("MapFragment", String.format("MapView onCurrentLocationUpdate (%f,%f) accuracy (%f)", mapPointGeo.latitude, mapPointGeo.longitude, accuracyInMeters));
         mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(mLatitude, mLongitude), true);
+        binding.mapView.setShowCurrentLocationMarker(true);
+        binding.mapView.setCurrentLocationRadius(50);
 //        mMapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(mLatitude, mLongitude), 6, true);
     }
     @Override
