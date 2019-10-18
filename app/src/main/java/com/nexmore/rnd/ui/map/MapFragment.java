@@ -6,11 +6,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +26,8 @@ import com.nexmore.rnd.databinding.FragmentMapBinding;
 import com.nexmore.rnd.transitions.FabTransform;
 import com.nexmore.rnd.ui.chat.CreateChatActivity;
 
+import net.daum.mf.map.api.MapCircle;
+import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
@@ -55,7 +59,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         binding.mapView.setCurrentLocationEventListener(this);
 
         setupCheckBox();
-
+        marker();
 
         return binding.getRoot();
     }
@@ -92,6 +96,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
                             getString(R.string.transition_name_create_chat));
             startActivityForResult(intent, CREATE_CHAT_REQUEST_CODE, optionsCompat.toBundle());
         });
+
     }
 
     private void fabOpenAction() {
@@ -120,6 +125,28 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     }
 
 
+    private void marker() {
+        MapPOIItem customMarker = new MapPOIItem();
+        customMarker.setItemName("Custom Marker");
+        customMarker.setTag(1);
+        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(37.544800,127.055901));
+        customMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커타입을 커스텀 마커로 지정.
+        customMarker.setCustomImageResourceId(R.drawable.ripple_fire); // 마커 이미지.
+        customMarker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
+        customMarker.setCustomImageAnchor(0.5f, 1.0f); // 마커 이미지중 기준이 되는 위치(앵커포인트) 지정 - 마커 이미지 좌측 상단 기준 x(0.0f ~ 1.0f), y(0.0f ~ 1.0f) 값.
+
+        MapCircle circle1 = new MapCircle(
+                MapPoint.mapPointWithGeoCoord(37.544800,127.055901), // center
+                500, // radius
+                Color.argb(128, 255, 0, 0), // strokeColor
+                Color.argb(128, 0, 255, 0) // fillColor
+        );
+        circle1.setTag(1234);
+        binding.mapView.addCircle(circle1);
+
+
+        binding.mapView.addPOIItem(customMarker);
+    }
 
 
     @Override
