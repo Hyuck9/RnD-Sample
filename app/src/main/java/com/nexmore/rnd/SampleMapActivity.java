@@ -21,21 +21,19 @@ public class SampleMapActivity extends AppCompatActivity implements MapView.Curr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MapView.setMapTilePersistentCacheEnabled(true); // 지도 타일 이미지 캐시 기능 활성화
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sample_map);
 
         viewModel = ViewModelProviders.of(this).get(SampleMapViewModel.class);
 //        binding.setViewModel(viewModel);
-
-        viewModel.getLonLat().observe(this, lonlat -> {
-            binding.textLonLat.setText(lonlat);
-        });
+        viewModel.getLonLat().observe(this, lonlat -> binding.textLonLat.setText(lonlat));
 
 
         initMap();
     }
 
     private void initMap() {
+        binding.sMap.setMapType(MapView.MapType.Hybrid);
         binding.sMap.setMapViewEventListener(this);
 //        binding.sMap.setCurrentLocationEventListener(this);
 //        binding.sMap.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
