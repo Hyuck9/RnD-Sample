@@ -44,4 +44,7 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
     //noinspection GradlePath
     implementation files('libs\\libDaumMapAndroid.jar')
+
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
 }
