@@ -15,6 +15,11 @@
 
     <dimen name="map_bottom_sheet_peek_height">56dp</dimen>
 
+    <dimen name="nav_item_background_corner_radius_left">0dp</dimen>
+    <dimen name="nav_item_background_corner_radius_right">100dp</dimen>
+    <dimen name="nav_item_background_inset_left">0dp</dimen>
+    <dimen name="nav_item_background_inset_right">8dp</dimen>>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

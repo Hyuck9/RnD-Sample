@@ -30,4 +30,5 @@
     <string name="transition_name_create_chat" translatable="false">create_chat</string>
 
     <string name="kakao_app_key">35f0d33b29d647701431bb0d7869707b</string>
+    <string name="a11y_select_map_mode">Select map mode</string>
 </resources>

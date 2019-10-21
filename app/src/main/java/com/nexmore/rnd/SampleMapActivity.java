@@ -1,23 +1,37 @@
 package com.nexmore.rnd;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
+import com.nexmore.rnd.data.model.MarkerInfo;
 import com.nexmore.rnd.databinding.ActivitySampleMapBinding;
+import com.nexmore.rnd.widget.BottomSheetBehavior;
 
+import net.daum.mf.map.api.MapCircle;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapReverseGeoCoder;
 import net.daum.mf.map.api.MapView;
 
+import org.jetbrains.annotations.NotNull;
+
+import static com.nexmore.rnd.utils.UiUtilsKt.slideOffsetToAlpha;
+
 public class SampleMapActivity extends AppCompatActivity implements MapView.CurrentLocationEventListener, MapReverseGeoCoder.ReverseGeoCodingResultListener, MapView.MapViewEventListener, MapView.POIItemEventListener {
 
     ActivitySampleMapBinding binding;
     SampleMapViewModel viewModel;
+    BottomSheetBehavior bottomSheetBehavior;
+
+    @SuppressWarnings("FieldCanBeLocal") private static float ALPHA_TRANSITION_START = 0.1f;
+    @SuppressWarnings("FieldCanBeLocal") private static float ALPHA_TRANSITION_END = 0.5f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,20 +40,161 @@ public class SampleMapActivity extends AppCompatActivity implements MapView.Curr
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sample_map);
 
         viewModel = ViewModelProviders.of(this).get(SampleMapViewModel.class);
-//        binding.setViewModel(viewModel);
+        binding.setViewModel(viewModel);
         viewModel.getLonLat().observe(this, lonlat -> binding.textLonLat.setText(lonlat));
 
-
         initMap();
+        initBottomSheet();
     }
 
     private void initMap() {
-        binding.sMap.setMapType(MapView.MapType.Hybrid);
+//        binding.sMap.setMapType(MapView.MapType.Hybrid);
+        binding.sMap.setMapType(MapView.MapType.Standard);
         binding.sMap.setMapViewEventListener(this);
+        binding.sMap.setPOIItemEventListener(this);
+        initEvent1();
+        initEvent2();
+        initEvent3();
 //        binding.sMap.setCurrentLocationEventListener(this);
 //        binding.sMap.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithHeading);
     }
 
+
+    private void initEvent1() {
+        MapPOIItem customMarker = new MapPOIItem();
+        customMarker.setItemName("연암산");
+        customMarker.setTag(1);
+        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(35.89962387, 128.60006713867188));
+        customMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커타입을 커스텀 마커로 지정.
+        customMarker.setCustomImageResourceId(R.drawable.map_marker_charging); // 마커 이미지.
+        customMarker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
+        customMarker.setCustomImageAnchor(0.5f, 0.5f); // 마커 이미지중 기준이 되는 위치(앵커포인트) 지정 - 마커 이미지 좌측 상단 기준 x(0.0f ~ 1.0f), y(0.0f ~ 1.0f) 값.
+        MapCircle circle = new MapCircle(
+                MapPoint.mapPointWithGeoCoord(35.89962387,128.60006713867188), // center
+                2000, // radius
+                Color.argb(128, 255, 0, 0), // strokeColor
+                Color.argb(64, 0, 0, 255) // fillColor
+        );
+        circle.setTag(1);
+        binding.sMap.addCircle(circle);
+        binding.sMap.addPOIItem(customMarker);
+        binding.sMap.addPOIItem(customMarker);
+    }
+
+    private void initEvent2() {
+        MapPOIItem customMarker = new MapPOIItem();
+        customMarker.setItemName("계성중학교");
+        customMarker.setTag(2);
+        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(35.86679077,128.58074951171875));
+        customMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커타입을 커스텀 마커로 지정.
+        customMarker.setCustomImageResourceId(R.drawable.map_marker_water);
+        customMarker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
+        customMarker.setCustomImageAnchor(0.5f, 0.5f); // 마커 이미지중 기준이 되는 위치(앵커포인트) 지정 - 마커 이미지 좌측 상단 기준 x(0.0f ~ 1.0f), y(0.0f ~ 1.0f) 값.
+        MapCircle circle = new MapCircle(
+                MapPoint.mapPointWithGeoCoord(35.86679077,128.58074951171875), // center
+                2000, // radius
+                Color.argb(128, 255, 0, 0), // strokeColor
+                Color.argb(64, 0, 255, 0) // fillColor
+        );
+        circle.setTag(2);
+        binding.sMap.addCircle(circle);
+        binding.sMap.addPOIItem(customMarker);
+    }
+
+    private void initEvent3() {
+        MapPOIItem customMarker = new MapPOIItem();
+        customMarker.setItemName("e편한세상");
+        customMarker.setTag(3);
+        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(35.86746597,128.6170196533203));
+        customMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커타입을 커스텀 마커로 지정.
+        customMarker.setCustomImageResourceId(R.drawable.map_marker_1);
+        customMarker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
+        customMarker.setCustomImageAnchor(0.5f, 0.5f); // 마커 이미지중 기준이 되는 위치(앵커포인트) 지정 - 마커 이미지 좌측 상단 기준 x(0.0f ~ 1.0f), y(0.0f ~ 1.0f) 값.
+        MapCircle circle = new MapCircle(
+                MapPoint.mapPointWithGeoCoord(35.86746597,128.6170196533203), // center
+                2000, // radius
+                Color.argb(128, 255, 0, 0), // strokeColor
+                Color.argb(64, 255, 0, 0) // fillColor
+        );
+        circle.setTag(3);
+        binding.sMap.addCircle(circle);
+        binding.sMap.addPOIItem(customMarker);
+    }
+
+
+
+
+
+
+    private void initBottomSheet() {
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheet);
+        bottomSheetBehavior.addBottomSheetCallback(bottomSheetCallback);
+        binding.bottomSheet.post(() -> {
+            int state = bottomSheetBehavior.getState();
+            float slideOffset = -1f;
+
+            if ( state == BottomSheetBehavior.STATE_EXPANDED ) {
+                slideOffset = 1f;
+            } else if ( state == BottomSheetBehavior.STATE_COLLAPSED ) {
+                slideOffset = 0f;
+            }
+            bottomSheetCallback.onStateChanged(binding.bottomSheet, state);
+            bottomSheetCallback.onSlide(binding.bottomSheet, slideOffset);
+        });
+
+        binding.clickable.setOnClickListener(v -> {
+            if (bottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            } else {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        binding.descriptionScrollview
+                .setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) ->
+                        binding.sheetHeaderShadow.setActivated(v.canScrollVertically(-1)));
+//        binding.mapModeFab.setOnClickListener();
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+
+    }
+
+    private void updateInfoSheet(MarkerInfo markerInfo) {
+        // TODO: markerInfo로 이미지 및 텍스트 셋팅
+    }
+
+    private BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new BottomSheetBehavior.BottomSheetCallback() {
+
+        @Override
+        public void onStateChanged(@NotNull View bottomSheet, int newState) {
+            float rotation = 180f;
+            switch ( newState ) {
+                case BottomSheetBehavior.STATE_EXPANDED:
+                    rotation = 0f;
+                    break;
+                case BottomSheetBehavior.STATE_COLLAPSED:
+                case BottomSheetBehavior.STATE_HIDDEN:
+                    rotation = 180f;
+                    break;
+            }
+            binding.expandIcon.animate().rotationX(rotation).start();
+
+//            if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+//                viewModel.logViewedMarkerDetails();
+//            }
+        }
+
+        @Override
+        public void onSlide(@NotNull View bottomSheet, float slideOffset) {
+            binding.descriptionScrollview.setAlpha(slideOffsetToAlpha(slideOffset, ALPHA_TRANSITION_START, ALPHA_TRANSITION_END));
+            if (slideOffset > 0f) {
+                binding.mapModeFab.hide();
+            } else {
+                binding.mapModeFab.show();
+                // Translate FAB to make room for the peeking sheet.
+                binding.mapModeFab.setTranslationY(bottomSheet.getTop() - 32 - binding.mapModeFab.getBottom());
+            }
+        }
+    };
 
 
     /*
@@ -121,6 +276,8 @@ public class SampleMapActivity extends AppCompatActivity implements MapView.Curr
     @Override
     public void onMapViewSingleTapped(MapView mapView, MapPoint mapPoint) {
         Toast.makeText(this, "사용자가 지도 위를 터치한 경우 호출된다.", Toast.LENGTH_SHORT).show();
+//        viewModel.dismissFeatureDetails();
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
     @Override
     public void onMapViewDoubleTapped(MapView mapView, MapPoint mapPoint) {
@@ -160,6 +317,12 @@ public class SampleMapActivity extends AppCompatActivity implements MapView.Curr
     public void onPOIItemSelected(MapView mapView, MapPOIItem mapPOIItem) {
         Toast.makeText(this, "단말 사용자가 POI Item을 선택한 경우 호출된다.", Toast.LENGTH_SHORT).show();
         // 사용자가 MapView 에 등록된 POI Item 아이콘(마커)를 터치한 경우 호출된다.
+
+        binding.markerIcon.setImageResource(mapPOIItem.getCustomImageResourceId());
+        binding.markerTitle.setText(mapPOIItem.getItemName());
+        binding.markerSubtitle.setText("재난 지역");
+        binding.markerDescription.setText("지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.");
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) { /* Deprecated */ }
