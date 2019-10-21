@@ -19,4 +19,6 @@
     <color name="background_light">#FAFAFA</color>
     <color name="scrim">#99323232</color>
 
+    <color name="colorSurface">#FFFFFF</color>
+
 </resources>

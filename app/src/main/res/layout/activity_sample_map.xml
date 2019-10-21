@@ -34,5 +34,121 @@
             app:layout_constraintTop_toBottomOf="@+id/text_lon_lat"
             tools:layout_editor_absoluteX="16dp" />
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_lon_lat">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_sheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/filters_sheet_background"
+                android:backgroundTint="@color/colorSurface"
+                android:elevation="@dimen/bottom_sheet_elevation"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+                app:behavior_hideable="true"
+                app:behavior_peekHeight="@dimen/map_bottom_sheet_peek_height">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guide_peek_height"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="@dimen/map_bottom_sheet_peek_height" />
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/description_scrollview"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="1px"
+                    android:paddingTop="@dimen/map_bottom_sheet_peek_height"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                    <TextView
+                        android:id="@+id/marker_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin_normal"
+                        android:textAlignment="viewStart" />
+                </androidx.core.widget.NestedScrollView>
+
+                <View
+                    android:id="@+id/clickable"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="?selectableItemBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/guide_peek_height"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/marker_icon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintBottom_toBottomOf="@id/guide_peek_height"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/map_marker_a" />
+                <TextView
+                    android:id="@+id/marker_title"
+                    style="@style/Widget.IOSched.Map.MarkerTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    app:layout_constraintEnd_toStartOf="@id/expand_icon"
+                    app:layout_constraintStart_toEndOf="@id/marker_icon"
+                    app:layout_constraintTop_toTopOf="@id/bottom_sheet"
+                    app:layout_constraintBottom_toTopOf="@id/marker_subtitle"
+                    app:layout_constraintVertical_chainStyle="packed"
+                    tools:text="Sandbox A" />
+                <TextView
+                    android:id="@+id/marker_subtitle"
+                    style="@style/Widget.IOSched.Map.MarkerSubtitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@id/guide_peek_height"
+                    app:layout_constraintEnd_toStartOf="@id/expand_icon"
+                    app:layout_constraintStart_toEndOf="@id/marker_icon"
+                    app:layout_constraintTop_toBottomOf="@id/marker_title"
+                    tools:text="Accessiblity &amp; Material Design"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/expand_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_normal"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_expand_more"
+                    app:layout_constraintBottom_toBottomOf="@id/guide_peek_height"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <View
+                    android:id="@+id/sheet_header_shadow"
+                    android:layout_width="0dp"
+                    android:layout_height="4dp"
+                    android:alpha="0"
+                    android:background="@drawable/filters_sheet_header_shadow"
+                    android:stateListAnimator="@animator/active_alpha"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/guide_peek_height" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
