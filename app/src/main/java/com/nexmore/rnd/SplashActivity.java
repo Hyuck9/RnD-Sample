@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.nexmore.rnd.ui.login.LoginActivity;
 import com.nexmore.rnd.utils.PermissionUtils;
 
 public class SplashActivity extends AppCompatActivity {
@@ -35,7 +36,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void nextActivity() {
-        Intent intent = new Intent(SplashActivity.this, SampleMapActivity.class);
+        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
