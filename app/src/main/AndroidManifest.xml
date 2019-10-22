@@ -20,7 +20,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".ui.chat.CreateChatActivity" />
+        <activity android:name=".ui.chat.CreateChatActivity"
+            android:theme="@style/AppTheme.Translucent.addFriend" />
         <activity android:name=".SampleMapActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 

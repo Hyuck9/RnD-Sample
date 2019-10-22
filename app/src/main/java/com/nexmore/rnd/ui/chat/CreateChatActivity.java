@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 
 import com.nexmore.rnd.R;
+import com.nexmore.rnd.transitions.FabTransform;
 
 public class CreateChatActivity extends AppCompatActivity {
 
@@ -16,6 +17,8 @@ public class CreateChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_chat);
+
+        FabTransform.setup(this, findViewById(R.id.search_container));
     }
 
     private void hideKeyboard() {
