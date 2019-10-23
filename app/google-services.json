@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "203659054514",
+    "firebase_url": "https://rnd-sample-83db2.firebaseio.com",
+    "project_id": "rnd-sample-83db2",
+    "storage_bucket": "rnd-sample-83db2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203659054514:android:0df20da20a8d312dbb68ab",
+        "android_client_info": {
+          "package_name": "com.nexmore.rnd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203659054514-84m3j2aqmc700jipk00driu69d2n6uoh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nexmore.rnd",
+            "certificate_hash": "0a508c6c0faeb0be33f358d9273932f4e2dcea29"
+          }
+        },
+        {
+          "client_id": "203659054514-vjn4ho79pmefcbipmjg68euqe5k73gsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlEy6ZHChgmx-0YSb5nvTsZl29wSrtToU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203659054514-vjn4ho79pmefcbipmjg68euqe5k73gsu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
