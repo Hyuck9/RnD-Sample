@@ -99,7 +99,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
                 binding.mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOff);
             }
         });
-        binding.checkboxMyLocation.setChecked(true);
+//        binding.checkboxMyLocation.setChecked(true);
     }
 
     /**
@@ -235,15 +235,18 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
     private void initEvent1() {
         MapPOIItem customMarker = new MapPOIItem();
-        customMarker.setItemName("뚝섬역");
+//        customMarker.setItemName("뚝섬역");
+        customMarker.setItemName("동성로");
         customMarker.setTag(1);
-        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(37.5471611022949289962387, 127.0472412109375));
+//        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(37.5471611022949289962387, 127.0472412109375));
+        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(35.86906814575195, 128.5952911376953));
         customMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커타입을 커스텀 마커로 지정.
         customMarker.setCustomImageResourceId(R.drawable.map_marker_charging); // 마커 이미지.
         customMarker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
         customMarker.setCustomImageAnchor(0.5f, 0.5f); // 마커 이미지중 기준이 되는 위치(앵커포인트) 지정 - 마커 이미지 좌측 상단 기준 x(0.0f ~ 1.0f), y(0.0f ~ 1.0f) 값.
         MapCircle circle = new MapCircle(
-                MapPoint.mapPointWithGeoCoord(37.54716110229492,127.0472412109375), // center
+//                MapPoint.mapPointWithGeoCoord(37.54716110229492,127.0472412109375), // center
+                MapPoint.mapPointWithGeoCoord(35.86906814575195, 128.5952911376953), // center
                 500, // radius
                 Color.argb(128, 255, 0, 0), // strokeColor
                 Color.argb(64, 0, 0, 255) // fillColor
@@ -251,20 +254,22 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         circle.setTag(1);
         binding.mapView.addCircle(circle);
         binding.mapView.addPOIItem(customMarker);
-        binding.mapView.addPOIItem(customMarker);
     }
 
     private void initEvent2() {
         MapPOIItem customMarker = new MapPOIItem();
-        customMarker.setItemName("성동세무서");
+//        customMarker.setItemName("성동세무서");
+        customMarker.setItemName("대구역");
         customMarker.setTag(2);
-        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(37.54852294921875,127.06273651123047));
+//        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(37.54852294921875,127.06273651123047));
+        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(35.876304626464844, 128.59703063964844));
         customMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커타입을 커스텀 마커로 지정.
         customMarker.setCustomImageResourceId(R.drawable.map_marker_water);
         customMarker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
         customMarker.setCustomImageAnchor(0.5f, 0.5f); // 마커 이미지중 기준이 되는 위치(앵커포인트) 지정 - 마커 이미지 좌측 상단 기준 x(0.0f ~ 1.0f), y(0.0f ~ 1.0f) 값.
         MapCircle circle = new MapCircle(
-                MapPoint.mapPointWithGeoCoord(37.54855728149414,127.06277465820312), // center
+//                MapPoint.mapPointWithGeoCoord(37.54855728149414,127.06277465820312), // center
+                MapPoint.mapPointWithGeoCoord(35.876304626464844, 128.59703063964844), // center
                 500, // radius
                 Color.argb(128, 255, 0, 0), // strokeColor
                 Color.argb(64, 0, 255, 0) // fillColor
@@ -276,15 +281,18 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
     private void initEvent3() {
         MapPOIItem customMarker = new MapPOIItem();
-        customMarker.setItemName("성수사거리");
+//        customMarker.setItemName("성수사거리");
+        customMarker.setItemName("중구청");
         customMarker.setTag(3);
-        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(37.542232513427734,127.06402587890625));
+//        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(37.542232513427734,127.06402587890625));
+        customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(35.86941146850586, 128.60618591308594));
         customMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커타입을 커스텀 마커로 지정.
         customMarker.setCustomImageResourceId(R.drawable.map_marker_1);
         customMarker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
         customMarker.setCustomImageAnchor(0.5f, 0.5f); // 마커 이미지중 기준이 되는 위치(앵커포인트) 지정 - 마커 이미지 좌측 상단 기준 x(0.0f ~ 1.0f), y(0.0f ~ 1.0f) 값.
         MapCircle circle = new MapCircle(
-                MapPoint.mapPointWithGeoCoord(37.542232513427734,127.06402587890625), // center
+//                MapPoint.mapPointWithGeoCoord(37.542232513427734,127.06402587890625), // center
+                MapPoint.mapPointWithGeoCoord(35.86941146850586, 128.60618591308594), // center
                 500, // radius
                 Color.argb(128, 255, 0, 0), // strokeColor
                 Color.argb(64, 255, 0, 0) // fillColor
@@ -353,9 +361,10 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         showToastMassage("MapView가 사용가능 한 상태가 되었음을 알려준다.");
         // onMapViewInitialized()가 호출된 이후에 MapView 객체가 제공하는 지도 조작 API들을 사용할 수 있다.
 
-        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
-        Log.d("test", "onCreate - 현재 위치 : " + mLatitude + ", " + mLongitude);
-        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(mLatitude, mLongitude), 2, true);
+//        mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading);
+//        Log.d("test", "onCreate - 현재 위치 : " + mLatitude + ", " + mLongitude);
+//        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(mLatitude, mLongitude), 2, true);
+        mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(35.87130355834961, 128.60165405273438), 2, true);
 
     }
     @Override
@@ -394,6 +403,9 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     @Override
     public void onMapViewMoveFinished(MapView mapView, MapPoint mapPoint) {
         showToastMassage("지도의 이동이 완료된 경우 호출된다.");
+        MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
+        Log.d("test", "onMapViewMoveFinished - 현재 위치 : " + mapPointGeo.latitude + ", " + mapPointGeo.longitude);
+
     }
     /* MapView.MapViewEventListener End */
 
@@ -413,8 +425,28 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
         binding.markerIcon.setImageResource(mapPOIItem.getCustomImageResourceId());
         binding.markerTitle.setText(mapPOIItem.getItemName());
-        binding.markerSubtitle.setText("재난 지역");
-        binding.markerDescription.setText("지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.");
+        String subTitle;
+        String description;
+        switch (mapPOIItem.getTag()) {
+            case 1:
+                subTitle = "5중 추돌 사고 발생";
+                description = "동성로 부근에서 5중 추돌 사고 발생 하였으니, 근처 운행 하시는 분들은 다른 길로 돌아 가시기 바랍니다.";
+                break;
+            case 2:
+                subTitle = "홍수 경보";
+                description = "대구역 부근에서 홍수로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
+                break;
+            case 3:
+                subTitle = "지진 발생";
+                description = "중구청 부근에서 지진으로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
+                break;
+            default:
+                subTitle = "재난 지역";
+                description = "지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.  지진 / 홍수 / 화재 / 교통 사고 등 재난 발생 지역입니다.";
+                break;
+        }
+        binding.markerSubtitle.setText(subTitle);
+        binding.markerDescription.setText(description);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
         if ( isFabOpen ) {
@@ -438,6 +470,6 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
 
     private void showToastMassage(String msg) {
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 }
