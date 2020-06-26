@@ -20,17 +20,14 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (PermissionUtils.permissionCheck(SplashActivity.this) ) {
-                    nextActivity();
-                } else {
-                    ActivityCompat.requestPermissions(
-                            SplashActivity.this,
-                            new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION },
-                            REQUEST_LOCATION);
-                }
+        new Handler().postDelayed(() -> {
+            if (PermissionUtils.permissionCheck(SplashActivity.this) ) {
+                nextActivity();
+            } else {
+                ActivityCompat.requestPermissions(
+                        SplashActivity.this,
+                        new String[] { android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION },
+                        REQUEST_LOCATION);
             }
         }, 1000);
     }

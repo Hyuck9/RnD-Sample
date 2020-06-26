@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.nexmore.rnd.R;
 import com.nexmore.rnd.databinding.FragmentMapBinding;
@@ -55,6 +54,8 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     private static final float ALPHA_TRANSITION_START = 0.1f;
     private static final float ALPHA_TRANSITION_END = 0.5f;
 
+    private ViewModelProvider.AndroidViewModelFactory viewModelFactory;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -66,13 +67,19 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         initBottomSheet();
         initCheckBox();
 
+        requireActivity().setTitle("재해 지도");
+
         return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(MapViewModel.class);
+
+        if ( viewModelFactory == null ) {
+            viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
+        }
+        mViewModel = new ViewModelProvider(this, viewModelFactory).get(MapViewModel.class);
         binding.setViewModel(mViewModel);
     }
 
@@ -117,10 +124,10 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
 
         binding.fabCreateChat.setOnClickListener(view -> {
             Intent intent = new Intent(getContext(), CreateChatActivity.class);
-            int color = ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorFabGreen);
+            int color = ContextCompat.getColor(requireContext(), R.color.colorFabGreen);
             FabTransform.addExtras(intent, color, R.drawable.ic_forum_white);
             ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(Objects.requireNonNull(getActivity()),
+                    .makeSceneTransitionAnimation(requireActivity(),
                             binding.fabCreateChat,
                             getString(R.string.transition_name_create_chat));
             startActivityForResult(intent, CREATE_CHAT_REQUEST_CODE, optionsCompat.toBundle());
@@ -466,6 +473,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         // 이동가능한 POI Item을 Draggable POI Item 이라 한다.
     }
     /* MapView.POIItemEventListener End */
+
 
 
 

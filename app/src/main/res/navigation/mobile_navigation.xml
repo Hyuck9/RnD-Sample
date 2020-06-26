@@ -9,32 +9,59 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.nexmore.rnd.ui.home.HomeFragment"
-        android:label="도시안전모바일앱"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_nav_home_to_nav_location"
-            app:destination="@id/nav_location" />
+            android:id="@+id/action_nav_home_to_nav_flood"
+            app:destination="@id/nav_flood" />
         <action
-            android:id="@+id/action_nav_home_to_fireMapFragment"
-            app:destination="@id/nav_firemap" />
+            android:id="@+id/action_nav_home_to_nav_slope"
+            app:destination="@id/nav_slope" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_manhole"
+            app:destination="@id/nav_manhole" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_heat"
+            app:destination="@id/nav_heat" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_fire"
+            app:destination="@id/nav_fire" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_location"
+        android:id="@+id/nav_flood"
         android:name="com.nexmore.rnd.ui.map.MapFragment"
         android:label="사고 위치"
         tools:layout="@layout/fragment_map" />
 
-    <!--<fragment
-        android:id="@+id/nav_share"
-        android:name="com.nexmore.rnd.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />-->
+    <fragment
+        android:id="@+id/nav_slope"
+        android:name="com.nexmore.rnd.ui.map.MapFragment"
+        android:label="사고 위치"
+        tools:layout="@layout/fragment_map" />
 
     <fragment
+        android:id="@+id/nav_manhole"
+        android:name="com.nexmore.rnd.ui.map.MapFragment"
+        android:label="사고 위치"
+        tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/nav_heat"
+        android:name="com.nexmore.rnd.ui.map.MapFragment"
+        android:label="사고 위치"
+        tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/nav_fire"
+        android:name="com.nexmore.rnd.ui.map.MapFragment"
+        android:label="사고 위치"
+        tools:layout="@layout/fragment_map" />
+
+
+    <!--<fragment
         android:id="@+id/nav_firemap"
         android:name="com.nexmore.rnd.ui.fire.FireMapFragment"
         android:label="화재 대피로"
-        tools:layout="@layout/fragment_firemap" />
+        tools:layout="@layout/fragment_firemap" />-->
 
 </navigation>

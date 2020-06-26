@@ -41,7 +41,7 @@ public class SampleMapActivity extends AppCompatActivity implements MapView.Curr
 
         viewModel = ViewModelProviders.of(this).get(SampleMapViewModel.class);
         binding.setViewModel(viewModel);
-        viewModel.getLonLat().observe(this, lonlat -> binding.textLonLat.setText(lonlat));
+//        viewModel.getLonLat().observe(this, lonlat -> binding.textLonLat.setText(lonlat));
 
         initMap();
         initBottomSheet();

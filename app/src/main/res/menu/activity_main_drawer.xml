@@ -9,6 +9,33 @@
             android:icon="@drawable/ic_menu_home"
             android:title="메인" />
         <item
+            android:id="@+id/nav_flood"
+            android:icon="@drawable/flood"
+            android:title="홍수" />
+        <item
+            android:id="@+id/nav_slope"
+            android:icon="@drawable/collapse"
+            android:title="경사지 붕괴" />
+        <item
+            android:id="@+id/nav_manhole"
+            android:icon="@drawable/manhole"
+            android:title="맨홀" />
+        <item
+            android:id="@+id/nav_heat"
+            android:icon="@drawable/hot"
+            android:title="폭염" />
+        <item
+            android:id="@+id/nav_fire"
+            android:icon="@drawable/fire"
+            android:title="화재" />
+    </group>
+
+    <!--<group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="메인" />
+        <item
             android:id="@+id/nav_location"
             android:icon="@drawable/ic_menu_location"
             android:title="재난 지도" />
@@ -29,6 +56,6 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="채팅방" />
         </menu>
-    </item>
+    </item>-->
 
 </menu>
