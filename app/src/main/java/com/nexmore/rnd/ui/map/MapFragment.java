@@ -336,8 +336,11 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
                         Color.argb(128, 255, 0, 0), // strokeColor
                         Color.argb(64, mapPOIItem.getRed(), mapPOIItem.getGreen(), mapPOIItem.getBlue()) // fillColor
                 );
-                binding.mapView.addCircle(circle);
+                if ( R.drawable.feap != customMarker.getCustomImageResourceId()  ) {
+                    binding.mapView.addCircle(circle);
+                }
                 binding.mapView.addPOIItem(customMarker);
+                binding.tvManual.setText(mapPOIItem.getManualText());
             }
         });
     }

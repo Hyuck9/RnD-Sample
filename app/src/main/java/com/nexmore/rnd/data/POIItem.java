@@ -15,4 +15,5 @@ public class POIItem {
     private int red;
     private int green;
     private int blue;
+    private String manualText;
 }
