@@ -6,7 +6,7 @@
     app:startDestination="@id/nav_home">
 
 
-    <fragment
+    <!--<fragment
         android:id="@+id/nav_home"
         android:name="com.nexmore.rnd.ui.home.HomeFragment"
         tools:layout="@layout/fragment_home" >
@@ -55,7 +55,7 @@
         android:id="@+id/nav_fire"
         android:name="com.nexmore.rnd.ui.map.MapFragment"
         android:label="사고 위치"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" />-->
 
 
     <!--<fragment
@@ -64,4 +64,8 @@
         android:label="화재 대피로"
         tools:layout="@layout/fragment_firemap" />-->
 
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.nexmore.rnd.ui.home.HomeFragment"
+        tools:layout="@layout/fragment_home" />
 </navigation>

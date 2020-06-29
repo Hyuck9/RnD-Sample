@@ -8,22 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.nexmore.rnd.R;
+import com.nexmore.rnd.data.POIItem;
 import com.nexmore.rnd.databinding.FragmentMapBinding;
-import com.nexmore.rnd.transitions.FabTransform;
-import com.nexmore.rnd.ui.chat.CreateChatActivity;
 import com.nexmore.rnd.widget.BottomSheetBehavior;
 
 import net.daum.mf.map.api.MapCircle;
@@ -32,8 +27,6 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 import static com.nexmore.rnd.utils.UiUtilsKt.slideOffsetToAlpha;
 
@@ -44,11 +37,11 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     private double mLongitude = 126.97787475585938;
 
     private FragmentMapBinding binding;
-    private MapViewModel mViewModel;
+    private MapViewModel viewModel;
     private BottomSheetBehavior bottomSheetBehavior;
 
-    private boolean isFabOpen = false;
-    private Animation fabOpen, fabClose, fabRClockwise, fabRAntiClockWise;
+//    private boolean isFabOpen = false;
+//    private Animation fabOpen, fabClose, fabRClockwise, fabRAntiClockWise;
 
     private static final int CREATE_CHAT_REQUEST_CODE = 107;
     private static final float ALPHA_TRANSITION_START = 0.1f;
@@ -62,12 +55,14 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         MapView.setMapTilePersistentCacheEnabled(true);
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_map, container, false);
 
+        if ( viewModelFactory == null ) {
+            viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
+        }
+        viewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(MapViewModel.class);
         initMap();
         initFab();
         initBottomSheet();
         initCheckBox();
-
-        requireActivity().setTitle("재해 지도");
 
         return binding.getRoot();
     }
@@ -76,11 +71,11 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if ( viewModelFactory == null ) {
-            viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
-        }
-        mViewModel = new ViewModelProvider(this, viewModelFactory).get(MapViewModel.class);
-        binding.setViewModel(mViewModel);
+//        if ( viewModelFactory == null ) {
+//            viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
+//        }
+//        viewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(MapViewModel.class);
+        binding.setViewModel(viewModel);
     }
 
     /**
@@ -90,9 +85,10 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         binding.mapView.setCurrentLocationEventListener(this);
         binding.mapView.setMapViewEventListener(this);
         binding.mapView.setPOIItemEventListener(this);
-        initEvent1();
-        initEvent2();
-        initEvent3();
+//        initEvent1();
+//        initEvent2();
+//        initEvent3();
+        test();
     }
 
     /**
@@ -113,25 +109,25 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
      * Floating Action Button SetUp
      */
     private void initFab() {
-        initAnimation();
-        binding.fabMain.setOnClickListener(view -> {
-            if ( isFabOpen ) {
-                fabCloseAction();
-            } else {
-                fabOpenAction();
-            }
-        });
-
-        binding.fabCreateChat.setOnClickListener(view -> {
-            Intent intent = new Intent(getContext(), CreateChatActivity.class);
-            int color = ContextCompat.getColor(requireContext(), R.color.colorFabGreen);
-            FabTransform.addExtras(intent, color, R.drawable.ic_forum_white);
-            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(requireActivity(),
-                            binding.fabCreateChat,
-                            getString(R.string.transition_name_create_chat));
-            startActivityForResult(intent, CREATE_CHAT_REQUEST_CODE, optionsCompat.toBundle());
-        });
+//        initAnimation();
+//        binding.fabMain.setOnClickListener(view -> {
+//            if ( isFabOpen ) {
+//                fabCloseAction();
+//            } else {
+//                fabOpenAction();
+//            }
+//        });
+//
+//        binding.fabCreateChat.setOnClickListener(view -> {
+//            Intent intent = new Intent(getContext(), CreateChatActivity.class);
+//            int color = ContextCompat.getColor(requireContext(), R.color.colorFabGreen);
+//            FabTransform.addExtras(intent, color, R.drawable.ic_forum_white);
+//            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
+//                    .makeSceneTransitionAnimation(requireActivity(),
+//                            binding.fabCreateChat,
+//                            getString(R.string.transition_name_create_chat));
+//            startActivityForResult(intent, CREATE_CHAT_REQUEST_CODE, optionsCompat.toBundle());
+//        });
 
         binding.fabSns.setOnClickListener(view -> {
             Intent intent = new Intent(android.content.Intent.ACTION_SEND);
@@ -142,41 +138,53 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
             startActivity(chooser);
         });
 
+        binding.fabManual.setOnClickListener(view -> {
+            if (View.GONE == binding.cardManual.getVisibility()) {
+                binding.cardManual.setVisibility(View.VISIBLE);
+            } else {
+                binding.cardManual.setVisibility(View.GONE);
+            }
+        });
+
+        binding.cardManualBtnOk.setOnClickListener(view -> {
+            binding.cardManual.setVisibility(View.GONE);
+        });
+
     }
 
-    /**
-     * Animation SetUp
-     */
-    private void initAnimation() {
-        fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
-        fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
-        fabRClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_clockwise);
-        fabRAntiClockWise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_anticlockwise);
-    }
+//    /**
+//     * Animation SetUp
+//     */
+//    private void initAnimation() {
+//        fabOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
+//        fabClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+//        fabRClockwise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_clockwise);
+//        fabRAntiClockWise = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_anticlockwise);
+//    }
 
-    /**
-     * Floating Action Button Open Event
-     */
-    private void fabOpenAction() {
-        binding.fabMain.startAnimation(fabRClockwise);
-        binding.fabCreateChat.startAnimation(fabOpen);
-        binding.fabSns.startAnimation(fabOpen);
-        binding.fabCreateChat.setClickable(true);
-        binding.fabSns.setClickable(true);
-        isFabOpen = true;
-    }
-
-    /**
-     * Floating Action Button Close Event
-     */
-    private void fabCloseAction() {
-        binding.fabMain.startAnimation(fabRAntiClockWise);
-        binding.fabCreateChat.startAnimation(fabClose);
-        binding.fabSns.startAnimation(fabClose);
-        binding.fabCreateChat.setClickable(false);
-        binding.fabSns.setClickable(false);
-        isFabOpen = false;
-    }
+//    /**
+//     * Floating Action Button Open Event
+//     */
+//    private void fabOpenAction() {
+//        binding.fabMain.startAnimation(fabRClockwise);
+//        binding.fabCreateChat.startAnimation(fabOpen);
+//        binding.fabSns.startAnimation(fabOpen);
+//        binding.fabCreateChat.setClickable(true);
+//        binding.fabSns.setClickable(true);
+//        isFabOpen = true;
+//    }
+//
+//    /**
+//     * Floating Action Button Close Event
+//     */
+//    private void fabCloseAction() {
+//        binding.fabMain.startAnimation(fabRAntiClockWise);
+//        binding.fabCreateChat.startAnimation(fabClose);
+//        binding.fabSns.startAnimation(fabClose);
+//        binding.fabCreateChat.setClickable(false);
+//        binding.fabSns.setClickable(false);
+//        isFabOpen = false;
+//    }
 
     /**
      * BottomSheet SetUp
@@ -309,6 +317,30 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         binding.mapView.addPOIItem(customMarker);
     }
 
+    private void test() {
+        viewModel.getItemList().observe(requireActivity(), mapPOIItems -> {
+            binding.mapView.removeAllPOIItems();
+            binding.mapView.removeAllCircles();
+            for (POIItem mapPOIItem : mapPOIItems) {
+                MapPOIItem customMarker = new MapPOIItem();
+                customMarker.setItemName(mapPOIItem.getItemName());
+                customMarker.setTag(mapPOIItem.getTag());
+                customMarker.setMapPoint(MapPoint.mapPointWithGeoCoord(mapPOIItem.getLatitude(), mapPOIItem.getLongitude()));
+                customMarker.setMarkerType(MapPOIItem.MarkerType.CustomImage); // 마커타입을 커스텀 마커로 지정.
+                customMarker.setCustomImageResourceId(mapPOIItem.getCustomImageResourceId());
+                customMarker.setCustomImageAutoscale(false); // hdpi, xhdpi 등 안드로이드 플랫폼의 스케일을 사용할 경우 지도 라이브러리의 스케일 기능을 꺼줌.
+                customMarker.setCustomImageAnchor(0.5f, 0.5f); // 마커 이미지중 기준이 되는 위치(앵커포인트) 지정 - 마커 이미지 좌측 상단 기준 x(0.0f ~ 1.0f), y(0.0f ~ 1.0f) 값.
+                MapCircle circle = new MapCircle(
+                        customMarker.getMapPoint(),
+                        500, // radius
+                        Color.argb(128, 255, 0, 0), // strokeColor
+                        Color.argb(64, mapPOIItem.getRed(), mapPOIItem.getGreen(), mapPOIItem.getBlue()) // fillColor
+                );
+                binding.mapView.addCircle(circle);
+                binding.mapView.addPOIItem(customMarker);
+            }
+        });
+    }
 
 
     /*
@@ -387,7 +419,7 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         showToastMassage("사용자가 지도 위를 터치한 경우 호출된다.");
 
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        binding.fabMain.show();
+//        binding.fabMain.show();
         MapPoint.GeoCoordinate mapPointGeo = mapPoint.getMapPointGeoCoord();
         Log.d("test", "onMapViewSingleTapped - 현재 위치 : " + mapPointGeo.latitude + ", " + mapPointGeo.longitude);
     }
@@ -436,16 +468,24 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         String description;
         switch (mapPOIItem.getTag()) {
             case 1:
-                subTitle = "5중 추돌 사고 발생";
-                description = "동성로 부근에서 5중 추돌 사고 발생 하였으니, 근처 운행 하시는 분들은 다른 길로 돌아 가시기 바랍니다.";
+                subTitle = "도시 홍수 발생";
+                description = "홍수로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
                 break;
             case 2:
-                subTitle = "홍수 경보";
-                description = "대구역 부근에서 홍수로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
+                subTitle = "경사지 붕괴 발생";
+                description = "홍수로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
                 break;
             case 3:
-                subTitle = "지진 발생";
-                description = "중구청 부근에서 지진으로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
+                subTitle = "맨홀 사고 발생";
+                description = "맨홀 역류로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
+                break;
+            case 4:
+                subTitle = "폭염 주의보 발생";
+                description = "폭염으로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
+                break;
+            case 5:
+                subTitle = "화재 발생";
+                description = "화재로 인한 피해가 속출하고 있습니다. 주의 하시기 바랍니다.";
                 break;
             default:
                 subTitle = "재난 지역";
@@ -456,10 +496,10 @@ public class MapFragment extends Fragment implements MapView.CurrentLocationEven
         binding.markerDescription.setText(description);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
-        if ( isFabOpen ) {
-            fabCloseAction();
-        }
-        binding.fabMain.hide();
+//        if ( isFabOpen ) {
+//            fabCloseAction();
+//        }
+//        binding.fabMain.hide();
     }
     @Override
     public void onCalloutBalloonOfPOIItemTouched(MapView mapView, MapPOIItem mapPOIItem) { /* Deprecated */ }

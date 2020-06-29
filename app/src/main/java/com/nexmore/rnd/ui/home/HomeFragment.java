@@ -7,28 +7,46 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 
 import com.nexmore.rnd.R;
 import com.nexmore.rnd.ui.map.MapFragment;
-
-import java.util.Objects;
+import com.nexmore.rnd.ui.map.MapViewModel;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private MapViewModel viewModel;
+    private ViewModelProvider.AndroidViewModelFactory viewModelFactory;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        if ( viewModelFactory == null ) {
+            viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication());
+        }
+        viewModel = new ViewModelProvider(requireActivity(), viewModelFactory).get(MapViewModel.class);
 
-        root.findViewById(R.id.cardFlood).setOnClickListener(view -> test());
-        root.findViewById(R.id.cardSlope).setOnClickListener(view -> test());
-        root.findViewById(R.id.cardManhole).setOnClickListener(view -> test());
-        root.findViewById(R.id.cardHeat).setOnClickListener(view -> test());
-        root.findViewById(R.id.cardFire).setOnClickListener(view -> test());
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        root.findViewById(R.id.cardFlood).setOnClickListener(view -> {
+            viewModel.initFloodItem();
+            openMapFragment("도시 홍수");
+        });
+        root.findViewById(R.id.cardSlope).setOnClickListener(view -> {
+            viewModel.initSlopeItem();
+            openMapFragment("경사지 붕괴");
+        });
+        root.findViewById(R.id.cardManhole).setOnClickListener(view -> {
+            viewModel.initManholeItem();
+            openMapFragment("맨홀");
+        });
+        root.findViewById(R.id.cardHeat).setOnClickListener(view -> {
+            viewModel.initHeatItem();
+            openMapFragment("폭염");
+        });
+        root.findViewById(R.id.cardFire).setOnClickListener(view -> {
+            viewModel.initFireItem();
+            openMapFragment("화재");
+        });
 
 //        root.findViewById(R.id.cardSlope).setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.action_nav_home_to_nav_slope));
 //
@@ -48,8 +66,9 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    private void test() {
+    private void openMapFragment(String title) {
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new HomeFragment()).commit();
         requireActivity().getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new MapFragment()).commit();
+        requireActivity().setTitle(title);
     }
 }

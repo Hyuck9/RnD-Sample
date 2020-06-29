@@ -32,7 +32,7 @@
             android:id="@+id/checkbox_my_location"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:elevation="8dp"
+            android:elevation="2dp"
             android:layout_margin="@dimen/fab_margin"
             android:layout_gravity="top|end"
             android:background="@drawable/selector_my_location"
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_create_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -73,7 +73,33 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/ic_add_white" />
+                app:srcCompat="@drawable/ic_add_white" />-->
+
+
+
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_sns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_margin="16dp"
+                app:backgroundTint="@color/colorFabPink"
+                app:srcCompat="@drawable/ic_share_white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_manual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_margin="16dp"
+                app:backgroundTint="@color/colorFabGreen"
+                app:srcCompat="@drawable/ic_forum_white" />
+
+
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/bottom_sheet"
@@ -216,6 +242,48 @@
             android:layout_margin="@dimen/fab_margin"
             app:srcCompat="@drawable/ic_add_white" />
 -->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardManual"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            app:cardCornerRadius="2dp"
+            android:elevation="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardFlood"
+            android:visibility="gone"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_margin="16dp"
+                    android:text="- 피난할 때는 열기나 연기의 방향을 보고 불이 난 반대쪽의 비상구, 비상계단을 찾아 1층 또는 옥상 중 가까운 쪽을 선택합니다.\n\n
+- 연기 속을 통과하여 대피할 때에는 수건 등을 물에 적셔서 입과 코를 막고 숨을 짧게 쉬며 낮은 자세로 엎드려 대피합니다.\n\n
+- 고층건물 화재 시 엘리베이터는 화재발생 층에서 열리거나 정전으로 멈추어 안에 갇힐 염려가 있으니 엘리베이터 통로 자체가 굴뚝 역할을 하여 질식할 우려가 있으므로 엘리베이터를 이용하지 않습니다.\n\n
+- 화염을 통과하여 대피할 때에는 물에 적신 담요 등을 뒤집어쓰고 신속히 대피합니다.
+"
+                    android:textSize="14sp" />
+                <Button
+                    android:id="@+id/cardManualBtnOk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/raised_button_ok"
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:layout_margin="16dp"
+                    android:text="확인"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </FrameLayout>
 </layout>
